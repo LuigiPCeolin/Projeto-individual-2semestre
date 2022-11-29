@@ -33,6 +33,11 @@
   box-sizing: border-box;
 }
 
+.nova-metrica-ideal{
+  border: solid 2px #adadad;
+  margin-bottom: 3%;
+}
+
 body, html {
   height: 100%;
   font-family: Poppins-Regular, sans-serif;
@@ -224,7 +229,7 @@ iframe {
 
 .wrap-login100 {
   width: 500px;
-  height: 507px;
+  height: 1000px;
   margin-top: 120px;
   background: #fff;
   border-radius: 10px;

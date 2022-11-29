@@ -63,4 +63,10 @@ router.post("/ObterDadosTorre", function (req, res) {
 router.post("/ObterNomeEmp", function (req, res) {
     usuarioController.ObterNomeEmp(req, res);
 });
+
+router.post("/cadastrarMetrica", function (req, res) {
+    usuarioController.cadastrarMetrica(req, res);
+});
+
+
 module.exports = router;

@@ -102,6 +102,17 @@ function buscarRegistro(fkTorre, nmrComponentes) {
     return database.executar(instrucaoSql);
 }
 
+function buscarMetrica(fkEmpresa, nmrComponentes) {
+    
+    instrucaoSql = ''
+    
+    instrucaoSql = `select * from  luigi_Metricas where fkComponente = ${nmrComponentes} and fkEmpresa = ${fkEmpresa}`;
+        
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+
 
 
 
@@ -114,6 +125,7 @@ module.exports = {
     buscarPorcentagemDisco,
     buscarPorcentagemPercaPacotes,
     buscarDataHora,
-    buscarRegistro
+    buscarRegistro,
+    buscarMetrica
     
 }

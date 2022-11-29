@@ -36,5 +36,9 @@ router.get("/Registro/:fkTorre/:nmrComponentes", function (req, res) {
     medidaController.buscarRegistro(req, res);
 })
 
+router.get("/Metrica/buscarMetrica/:fkEmpresa/:nmrComponentes", function (req, res) {
+    medidaController.buscarMetrica(req, res);
+})
+
 
 module.exports = router;

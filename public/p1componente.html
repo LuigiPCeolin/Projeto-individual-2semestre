@@ -71,9 +71,6 @@
       background-color: rgba(0, 0, 0, 0.1);
     }
 
-    .nova-metrica{
-    
-    }
     .nova-metrica-ideal{
       border: solid 2px #adadad;
       margin-bottom: 3%;
@@ -170,9 +167,9 @@
               </select>
             </div>
             <div class="nova-metrica"><p>Coloque sua nova métrica abaixo:</p>
-            <input class="nova-metrica-ideal" placeholder="Métrica ideal">
-            <input class="nova-metrica-ideal" placeholder="Métrica de alerta">
-            <input class="nova-metrica-ideal" placeholder="Métrica crítica"></div>
+            <input class="nova-metrica-ideal" placeholder="Métrica ideal" id="Normal1S1">
+            <input class="nova-metrica-ideal" placeholder="Métrica de alerta" id="Atencao1S1">
+            <input class="nova-metrica-ideal" placeholder="Métrica crítica" id="Critico1S1"></div>
           <!--Escrever aqui-->
 
           </div>
@@ -189,9 +186,9 @@
               </select>
             </div>
             <div class="nova-metrica"><p>Coloque sua nova métrica abaixo:</p>
-              <input class="nova-metrica-ideal" placeholder="Métrica ideal">
-              <input class="nova-metrica-ideal" placeholder="Métrica de alerta">
-              <input class="nova-metrica-ideal" placeholder="Métrica crítica"></div>
+              <input class="nova-metrica-ideal" placeholder="Métrica ideal" id="Normal2S1">
+              <input class="nova-metrica-ideal" placeholder="Métrica de alerta" id="Atencao2S1">
+              <input class="nova-metrica-ideal" placeholder="Métrica crítica" id="Critico2S1"></div>
 
           </div>
 
@@ -299,9 +296,9 @@
               </select>
             </div>
             <div class="nova-metrica"><p>Coloque sua nova métrica abaixo:</p>
-              <input class="nova-metrica-ideal" placeholder="Métrica ideal">
-              <input class="nova-metrica-ideal" placeholder="Métrica de alerta">
-              <input class="nova-metrica-ideal" placeholder="Métrica crítica"></div>
+              <input class="nova-metrica-ideal" placeholder="Métrica ideal" id="Normal1S2">
+              <input class="nova-metrica-ideal" placeholder="Métrica de alerta" id="Atencao1S2">
+              <input class="nova-metrica-ideal" placeholder="Métrica crítica" id="Critico1S2"></div>
 
           </div>
           <div class="wrap-input200 validate-input">
@@ -317,9 +314,9 @@
               </select>
             </div>
             <div class="nova-metrica"><p>Coloque sua nova métrica abaixo:</p>
-              <input class="nova-metrica-ideal" placeholder="Métrica ideal">
-              <input class="nova-metrica-ideal" placeholder="Métrica de alerta">
-              <input class="nova-metrica-ideal" placeholder="Métrica crítica"></div>
+              <input class="nova-metrica-ideal" placeholder="Métrica ideal" id="Normal2S2" >
+              <input class="nova-metrica-ideal" placeholder="Métrica de alerta" id="Atencao2S2">
+              <input class="nova-metrica-ideal" placeholder="Métrica crítica" id="Critico2S2"></div>
 
           </div>
         </div>
@@ -418,9 +415,9 @@
                 </select>
               </div>
               <div class="nova-metrica"><p>Coloque sua nova métrica abaixo:</p>
-                <input class="nova-metrica-ideal" placeholder="Métrica ideal">
-                <input class="nova-metrica-ideal" placeholder="Métrica de alerta">
-                <input class="nova-metrica-ideal" placeholder="Métrica crítica"></div>
+                <input class="nova-metrica-ideal" placeholder="Métrica ideal" id="Normal1S3">
+                <input class="nova-metrica-ideal" placeholder="Métrica de alerta" id="Atencao1S3">
+                <input class="nova-metrica-ideal" placeholder="Métrica crítica" id="Critico1S3"></div>
 
             </div>
             <div class="wrap-input200 validate-input">
@@ -436,9 +433,9 @@
                 </select>
               </div>
               <div class="nova-metrica"><p>Coloque sua nova métrica abaixo:</p>
-                <input class="nova-metrica-ideal" placeholder="Métrica ideal">
-                <input class="nova-metrica-ideal" placeholder="Métrica de alerta">
-                <input class="nova-metrica-ideal" placeholder="Métrica crítica"></div>
+                <input class="nova-metrica-ideal" placeholder="Métrica ideal" id="Normal2S3">
+                <input class="nova-metrica-ideal" placeholder="Métrica de alerta" id="Atencao2S3">
+                <input class="nova-metrica-ideal" placeholder="Métrica crítica" id="Critico2S3"></div>
 
             </div>
           </div>
@@ -572,6 +569,7 @@
   var fkEmpresaVar = sessionStorage.FK_EMPRESA
 
   function ValidarSelect1() {
+    cadastrarMetrica();
     const open = document.getElementById('open');
     const modal_container = document.getElementById('modal_container');
     const modal_container2 = document.getElementById('modal_container2');
@@ -1043,7 +1041,6 @@
 
 
 
-
 <!-- -------------------------------------------------------------- Servidor 3 -------------------------------------------------------------- -->
 
 
@@ -1093,9 +1090,9 @@
           });
       } else {
           CadastrarServidor3()
+          cadastrarMetrica3()
       }
   }
-
 
   function CadastrarServidor3() {
       const open = document.getElementById('open');
@@ -1276,6 +1273,8 @@
           }
       }, 3000);
   }
+
+  
 </script>
 
 <script>
@@ -1359,3 +1358,8 @@
   document.addEventListener("click", closeAllSelect);
 
 </script>
+
+
+ <script>
+  // cadastrarMetrica //
+  

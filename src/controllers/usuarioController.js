@@ -1,5 +1,6 @@
 var usuarioModel = require("../models/usuarioModel");
 
+
 var sessoes = [];
 
 function testar(req, res) {
@@ -21,19 +22,19 @@ function listar(req, res) {
                 console.log("Houve um erro ao realizar a consulta! Erro: ", erro.sqlMessage);
                 res.status(500).json(erro.sqlMessage);
             }
-            );
+        );
 }
-        
+
 function entrar(req, res) {
-            var email = req.body.emailServer;
-            var senha = req.body.senhaServer;
-            
-            if(email == undefined) {
-                res.status(400).send("Seu email está undefined!");
-            } else if (senha == undefined) {
-                res.status(400).send("Sua senha está indefinida!");
-            } else {
-                
+    var email = req.body.emailServer;
+    var senha = req.body.senhaServer;
+
+    if (email == undefined) {
+        res.status(400).send("Seu email está undefined!");
+    } else if (senha == undefined) {
+        res.status(400).send("Sua senha está indefinida!");
+    } else {
+
         usuarioModel.entrar(email, senha)
             .then(
                 function (resultado) {
@@ -61,32 +62,32 @@ function entrar(req, res) {
 }
 function verificarPlano(req, res) {
     var fkEmpresa = req.body.fkEmpresaServer;
-    
-    if(fkEmpresa == undefined) {
-        res.status(400).send("Seu email está undefined!");
-    }else {
-        
-usuarioModel.verificarPlano(fkEmpresa)
-    .then(
-        function (resultado) {
-            console.log(`\nResultados encontrados: ${resultado.length}`);
-            console.log(`Resultados: ${JSON.stringify(resultado)}`); // transforma JSON em String
 
-            if (resultado.length != 0) {
-                console.log(resultado);
-                res.json(resultado[0]);
-            } else if (resultado.length == 0) {
-                res.status(403).send("Não tem plano/empresa");
-            }
-        }
-    ).catch(
-        function (erro) {
-            console.log(erro);
-            console.log("\nHouve um erro ao verificar plano! Erro: ", erro.sqlMessage);
-            res.status(500).json(erro.sqlMessage);
-        }
-    );
-}
+    if (fkEmpresa == undefined) {
+        res.status(400).send("Seu email está undefined!");
+    } else {
+
+        usuarioModel.verificarPlano(fkEmpresa)
+            .then(
+                function (resultado) {
+                    console.log(`\nResultados encontrados: ${resultado.length}`);
+                    console.log(`Resultados: ${JSON.stringify(resultado)}`); // transforma JSON em String
+
+                    if (resultado.length != 0) {
+                        console.log(resultado);
+                        res.json(resultado[0]);
+                    } else if (resultado.length == 0) {
+                        res.status(403).send("Não tem plano/empresa");
+                    }
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao verificar plano! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
 }
 
 function cadastrar(req, res) {
@@ -109,7 +110,7 @@ function cadastrar(req, res) {
     } else if (perfil == undefined) {
         res.status(400).send("Seu perfil está undefined!");
     } else {
-        
+
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
         usuarioModel.cadastrar(nome, cpf, email, senha, perfil)
             .then(
@@ -128,6 +129,55 @@ function cadastrar(req, res) {
             );
     }
 }
+
+// cadastrarMetrica //
+function cadastrarMetrica(req, res) {
+    
+    var fkComponente = req.body.fkComponenteServer;
+    var fkEmpresa = req.body.fkEmpresaServer;
+    var Normal = req.body.NormalServer;
+    var Atencao = req.body.AtencaoServer;
+    var Critico = req.body.CriticoServer;
+
+         
+        // Faça as validações dos valores
+
+        if (fkComponente == undefined) {
+            res.status(400).send("Seu fkComponente está undefined!");
+        } else if (fkEmpresa == undefined) {
+            res.status(400).send("Seu fkEmpresa está undefined!");
+        } else if (Normal == undefined) {
+            res.status(400).send("Seu Normal está undefined!");
+        } else if (Atencao == undefined) {
+            res.status(400).send("Seu atencao está undefined!");
+        } else if (Critico == undefined) {
+            res.status(400).send("Sua critico está undefined!");
+        } else {
+
+            // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
+            usuarioModel.cadastrarMetrica(fkComponente, fkEmpresa, Normal, Atencao, Critico)
+                .then(
+                    function (resultado) {
+                        res.json(resultado);
+                    }
+                ).catch(
+                    function (erro) {
+                        console.log(erro);
+                        console.log(
+                            "\nHouve um erro ao realizar o cadastro! Erro: ",
+                            erro.sqlMessage
+                        );
+                        res.status(500).json(erro.sqlMessage);
+                    }
+                );
+        }           
+}
+
+
+
+
+
+
 
 function CadastrarUsuario(req, res) {
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
@@ -149,7 +199,7 @@ function CadastrarUsuario(req, res) {
     } else if (fkEmpresa == undefined) {
         res.status(400).send("Seu fkEmpresa está undefined!");
     } else {
-        
+
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
         usuarioModel.CadastrarUsuario(nome, email, senha, fkPerfil, fkEmpresa)
             .then(
@@ -180,9 +230,9 @@ function CadastrarTorre(req, res) {
     } else if (loc == undefined) {
         res.status(400).send("Seu loc está undefined!");
     } else {
-        
+
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.CadastrarTorre(loc,fkEmpresa)
+        usuarioModel.CadastrarTorre(loc, fkEmpresa)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -212,9 +262,9 @@ function CadastrarComponente(req, res) {
     } else if (fkComponente == undefined) {
         res.status(400).send("Seu fkComponente está undefined!");
     } else {
-        
+
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.CadastrarComponente(fkTorre,fkComponente)
+        usuarioModel.CadastrarComponente(fkTorre, fkComponente)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -245,14 +295,14 @@ function cadastrarEmp(req, res) {
         res.status(400).send("Seu idEmp está undefined!");
     } else if (nomeEmp == undefined) {
         res.status(400).send("Seu nomeEmp está undefined!");
-    }else if (plano == undefined) {
+    } else if (plano == undefined) {
         res.status(400).send("Seu plano está undefined!");
-    }else if (cnpjEmp == undefined) {
+    } else if (cnpjEmp == undefined) {
         res.status(400).send("Seu cnpjEmp está undefined!");
-    }else if (emailEmp == undefined) {
+    } else if (emailEmp == undefined) {
         res.status(400).send("Seu emailEmp está undefined!");
-    }else {
-        
+    } else {
+
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
         usuarioModel.cadastrarEmp(idEmp, nomeEmp, plano, cnpjEmp, emailEmp)
             .then(
@@ -283,12 +333,12 @@ function atualizarAdm(req, res) {
     } else if (EmailAdm == undefined) {
         res.status(400).send("Seu EmailAdm está undefined!");
     } else {
-        
+
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
         usuarioModel.atualizarAdm(idEmp, EmailAdm)
             .then(
                 function (resultado) {
-                        res.json(resultado);
+                    res.json(resultado);
                 }
             ).catch(
                 function (erro) {
@@ -300,124 +350,129 @@ function atualizarAdm(req, res) {
                     res.status(500).json(erro.sqlMessage);
                 }
             );
-    }}
+    }
+}
 function verificarTorres(req, res) {
     var fkEmpresa = req.body.fkEmpresaServer;
-    
-    if(fkEmpresa == undefined) {
-        res.status(400).send("Seu email está undefined!");
-    }else {
-        
-usuarioModel.verificarTorres(fkEmpresa)
-    .then(
-        function (resultado) {
-            console.log(`\nResultados encontrados: ${resultado.length}`);
-            console.log(`Resultados: ${JSON.stringify(resultado)}`); // transforma JSON em String
 
-            if (resultado.length != 0) {
-                console.log(resultado);
-                res.json(resultado);
-            } else if (resultado.length == 0) {
-                res.status(403).send("Não tem torre");
-            }
-        }
-    ).catch(
-        function (erro) {
-            console.log(erro);
-            console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
-            res.status(500).json(erro.sqlMessage);
-        }
-    );
-}}
+    if (fkEmpresa == undefined) {
+        res.status(400).send("Seu email está undefined!");
+    } else {
+
+        usuarioModel.verificarTorres(fkEmpresa)
+            .then(
+                function (resultado) {
+                    console.log(`\nResultados encontrados: ${resultado.length}`);
+                    console.log(`Resultados: ${JSON.stringify(resultado)}`); // transforma JSON em String
+
+                    if (resultado.length != 0) {
+                        console.log(resultado);
+                        res.json(resultado);
+                    } else if (resultado.length == 0) {
+                        res.status(403).send("Não tem torre");
+                    }
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
 
 function ObterDadosTorre(req, res) {
     var idTorre = req.body.idTorreServer;
-    
-    if(idTorre == undefined) {
-        res.status(400).send("Seu idTorre está undefined!");
-    }else {
-        
-usuarioModel.ObterDadosTorre(idTorre)
-    .then(
-        function (resultado) {
-            console.log(`\nResultados encontrados: ${resultado.length}`);
-            console.log(`Resultados: ${JSON.stringify(resultado)}`); // transforma JSON em String
 
-            if (resultado.length != 0) {
-                console.log(resultado);
-                res.json(resultado);
-            } else if (resultado.length == 0) {
-                res.status(403).send("Não tem torre");
-            }
-        }
-    ).catch(
-        function (erro) {
-            console.log(erro);
-            console.log("\nHouve um erro ao realizar o encontrar torres! Erro: ", erro.sqlMessage);
-            res.status(500).json(erro.sqlMessage);
-        }
-    );
-}}
+    if (idTorre == undefined) {
+        res.status(400).send("Seu idTorre está undefined!");
+    } else {
+
+        usuarioModel.ObterDadosTorre(idTorre)
+            .then(
+                function (resultado) {
+                    console.log(`\nResultados encontrados: ${resultado.length}`);
+                    console.log(`Resultados: ${JSON.stringify(resultado)}`); // transforma JSON em String
+
+                    if (resultado.length != 0) {
+                        console.log(resultado);
+                        res.json(resultado);
+                    } else if (resultado.length == 0) {
+                        res.status(403).send("Não tem torre");
+                    }
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao realizar o encontrar torres! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
 
 
 function ObterNomeEmp(req, res) {
     var fkEmpresa = req.body.fkEmpresaServer;
-    
-    if(fkEmpresa == undefined) {
-        res.status(400).send("Seu fkEmpresa está undefined!");
-    }else {
-        
-usuarioModel.ObterNomeEmp(fkEmpresa)
-    .then(
-        function (resultado) {
-            console.log(`\nResultados encontrados: ${resultado.length}`);
-            console.log(`Resultados: ${JSON.stringify(resultado)}`); // transforma JSON em String
 
-            if (resultado.length != 0) {
-                console.log(resultado);
-                res.json(resultado);
-            } else if (resultado.length == 0) {
-                res.status(403).send("Não tem torre");
-            }
-        }
-    ).catch(
-        function (erro) {
-            console.log(erro);
-            console.log("\nHouve um erro ao realizar o encontrar nome emp! Erro: ", erro.sqlMessage);
-            res.status(500).json(erro.sqlMessage);
-        }
-    );
-}}
+    if (fkEmpresa == undefined) {
+        res.status(400).send("Seu fkEmpresa está undefined!");
+    } else {
+
+        usuarioModel.ObterNomeEmp(fkEmpresa)
+            .then(
+                function (resultado) {
+                    console.log(`\nResultados encontrados: ${resultado.length}`);
+                    console.log(`Resultados: ${JSON.stringify(resultado)}`); // transforma JSON em String
+
+                    if (resultado.length != 0) {
+                        console.log(resultado);
+                        res.json(resultado);
+                    } else if (resultado.length == 0) {
+                        res.status(403).send("Não tem torre");
+                    }
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao realizar o encontrar nome emp! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
 
 
 function UltimaTorre(req, res) {
     var fkEmpresa = req.body.fkEmpresaServer;
-    
-    if(fkEmpresa == undefined) {
-        res.status(400).send("Seu fkEmpresa está undefined!");
-    }else {
-        
-usuarioModel.UltimaTorre(fkEmpresa)
-    .then(
-        function (resultado) {
-            console.log(`\nResultados encontrados: ${resultado.length}`);
-            console.log(`Resultados: ${JSON.stringify(resultado)}`); // transforma JSON em String
 
-            if (resultado.length != 0) {
-                console.log(resultado);
-                res.json(resultado[resultado.length - 1]);
-            } else if (resultado.length == 0) {
-                res.status(403).send("Não tem torre");
-            }
-        }
-    ).catch(
-        function (erro) {
-            console.log(erro);
-            console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
-            res.status(500).json(erro.sqlMessage);
-        }
-    );
-}}
+    if (fkEmpresa == undefined) {
+        res.status(400).send("Seu fkEmpresa está undefined!");
+    } else {
+
+        usuarioModel.UltimaTorre(fkEmpresa)
+            .then(
+                function (resultado) {
+                    console.log(`\nResultados encontrados: ${resultado.length}`);
+                    console.log(`Resultados: ${JSON.stringify(resultado)}`); // transforma JSON em String
+
+                    if (resultado.length != 0) {
+                        console.log(resultado);
+                        res.json(resultado[resultado.length - 1]);
+                    } else if (resultado.length == 0) {
+                        res.status(403).send("Não tem torre");
+                    }
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
 
 
 
@@ -425,32 +480,32 @@ usuarioModel.UltimaTorre(fkEmpresa)
 
 function ObterComponentes(req, res) {
     var fkTorre = req.body.fkTorreServer;
-    
-    if(fkTorre == undefined) {
-        res.status(400).send("Seu fkTorre está undefined!");
-    }else {
-        
-usuarioModel.ObterComponentes(fkTorre)
-    .then(
-        function (resultado) {
-            console.log(`\nResultados encontrados: ${resultado.length}`);
-            console.log(`Resultados: ${JSON.stringify(resultado)}`); // transforma JSON em String
 
-            if (resultado.length != 0) {
-                console.log(resultado);
-                res.json(resultado);
-            } else if (resultado.length == 0) {
-                res.status(403).send("Não tem componentes");
-            }
-        }
-    ).catch(
-        function (erro) {
-            console.log(erro);
-            console.log("\nHouve um erro ao verificar plano! Erro: ", erro.sqlMessage);
-            res.status(500).json(erro.sqlMessage);
-        }
-    );
-}
+    if (fkTorre == undefined) {
+        res.status(400).send("Seu fkTorre está undefined!");
+    } else {
+
+        usuarioModel.ObterComponentes(fkTorre)
+            .then(
+                function (resultado) {
+                    console.log(`\nResultados encontrados: ${resultado.length}`);
+                    console.log(`Resultados: ${JSON.stringify(resultado)}`); // transforma JSON em String
+
+                    if (resultado.length != 0) {
+                        console.log(resultado);
+                        res.json(resultado);
+                    } else if (resultado.length == 0) {
+                        res.status(403).send("Não tem componentes");
+                    }
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao verificar plano! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
 }
 
 
@@ -458,6 +513,7 @@ usuarioModel.ObterComponentes(fkTorre)
 module.exports = {
     entrar,
     cadastrar,
+    cadastrarMetrica,
     listar,
     testar,
     cadastrarEmp,

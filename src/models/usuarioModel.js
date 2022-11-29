@@ -137,6 +137,26 @@ function CadastrarUsuario(nome, email, senha, fkPerfil, fkEmpresa) {
     return database.executar(instrucao);
 }
 
+
+
+function cadastrarMetrica(fkComponente, fkEmpresa, Normal, Atencao, Critico) {
+    // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
+    //  e na ordem de inserção dos dados.
+    var instrucao = `
+    INSERT INTO luigi_Metricas (fkComponente, fkEmpresa, Normall, Atencao, Critico) VALUES ('${fkComponente}', '${fkEmpresa}', '${Normal}', '${Atencao}', '${Critico}');
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+    
+}
+
+function buscarMetrica(){
+    
+}
+
+
+
 function ObterDadosTorre(idTorre) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrarP():",idTorre);
 
@@ -175,7 +195,7 @@ module.exports = {
     CadastrarComponente,
     ObterComponentes,
     CadastrarUsuario,
+    cadastrarMetrica,
     ObterDadosTorre,
     ObterNomeEmp
-    
 };
