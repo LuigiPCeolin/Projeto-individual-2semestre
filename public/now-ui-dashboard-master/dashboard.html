@@ -369,21 +369,20 @@
     }).catch(function (erro) {
       console.log("ERRO: " + erro);
     })
-    // setTimeout(() =>
-    //   ObterDataHora(sessionStorage.ID_TORRE),
-    //   ObterPorcentagemRAM(sessionStorage.ID_TORRE),
-    //   ObterPorcentagemPercaPacotes(sessionStorage.ID_TORRE),
-    //   ObterPorcentagemCPU(sessionStorage.ID_TORRE),
-    //   ObterPorcentagemDisco(sessionStorage.ID_TORRE)
-    //   , 2000);
-    // setTimeout(() => AparecerGraficos(vetor_Componentes, fkTorre), 3000);
-    fkEmp = sessionStorage.FK_EMPRESA
-    console.log(fkEmp)
     setTimeout(() =>
-      buscarMetrica(2, fkEmp),
-      buscarMetrica(5, fkEmp),
-      buscarMetrica(9, fkEmp),
-      buscarMetrica(12, fkEmp)
+      ObterDataHora(sessionStorage.ID_TORRE),
+      ObterPorcentagemRAM(sessionStorage.ID_TORRE),
+      ObterPorcentagemPercaPacotes(sessionStorage.ID_TORRE),
+      ObterPorcentagemCPU(sessionStorage.ID_TORRE),
+      ObterPorcentagemDisco(sessionStorage.ID_TORRE)
+      , 2000);
+    setTimeout(() => AparecerGraficos(vetor_Componentes, fkTorre), 3000);
+    fkEmp = sessionStorage.FK_EMPRESA
+    setTimeout(() =>
+      buscarMetrica(fkEmp, 2),
+      buscarMetrica(fkEmp ,5),
+      buscarMetrica(fkEmp, 9),
+      buscarMetrica(fkEmp, 12)
       , 1000)
 
   }
@@ -756,7 +755,7 @@
     fetch(`/medidas/Metrica/buscarMetrica/${fkEmpresa}/${nmrComponente}`, { cache: 'no-store' }).then(function (response) {
       if (response.ok) {
         console.log('response.ok')
-        console.log(response.json())
+        // console.log(response.json())
         response.json().then(function (resposta) {
           console.log(`Dados recebidos aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: ${JSON.stringify(resposta)}`);
           console.log(resposta)
