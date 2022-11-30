@@ -698,67 +698,28 @@
       .catch(err => console.error(err));
   }
 
-  function verificarInternet(metrica) {
-    var frase = ""
-    // incluir uma nova medida de temperatura  
-    if (metrica > 15 && metrica < 30) {
-      frase = "Alerta: Alguns pacotes estão sendo perdidos! Porcentagem de perda de pacotes: "
-      console.log('Cheguei aqui')
-      alertas(nome, "Pacotes", metrica, frase)
-    } else if (metrica > 30) {
-      frase = "Perigo: Muitos Pacotes Perdidos! Porcentagem de perda de pacotes: "
-      alertas(nome, "Pacotes", metrica, frase)
-    }
-  }
-
-  function verificarRam(metrica) {
-    var frase = ""
-    // incluir uma nova medida de temperatura  
-    if (metrica > 85 && metrica < 100) {
-      frase = "Alerta: RAM sobrecarregando! Porcentagem de uso: "
-      console.log('Cheguei aqui')
-      alertas(nome, "RAM", metrica, frase)
-    } else if (metrica == 100) {
-      frase = "Perigo: RAM está sobrecarregada! Porcentagem de uso: "
-      alertas(nome, "RAM", metrica, frase)
-    }
-  }
-
-  function verificarCpu(metrica) {
-    var frase = ""
-    // incluir uma nova medida de temperatura  
-    if (metrica > 50 && metrica < 75) {
-      frase = "Alerta: CPU sobrecarregando! Porcentagem de uso: "
-      console.log('Cheguei aqui')
-      alertas(nome, "CPU", metrica, frase)
-    } else if (metrica >= 75) {
-      frase = "Perigo: CPU sobrecarregada! Porcentagem de uso: "
-      alertas(nome, "CPU", metrica, frase)
-    }
-  }
-
-  function verificarDisco(metrica) {
-    var frase = ""
-    // incluir uma nova medida de temperatura  
-    if (metrica > 60 && metrica <= 80) {
-      frase = "Alerta: Disco sobrecarregando! Porcentagem de uso: "
-      console.log('Cheguei aqui')
-      alertas(nome, "Disco", metrica, frase)
-    } else if (metrica > 80) {
-      frase = "Perigo: Disco sobrecarregado! Porcentagem de uso: "
-      alertas(nome, "Disco", metrica, frase)
-    }
-  }
-
   function buscarMetrica(fkEmpresa, nmrComponente) {
+    vetor_Normall = ""
+    vetor_Atencao = ""
+    vetor_Critico = ""
+    
 
     fetch(`/medidas/Metrica/buscarMetrica/${fkEmpresa}/${nmrComponente}`, { cache: 'no-store' }).then(function (response) {
       if (response.ok) {
         console.log('response.ok')
         // console.log(response.json())
         response.json().then(function (resposta) {
-          console.log(`Dados recebidos aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: ${JSON.stringify(resposta)}`);
+          console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
           console.log(resposta)
+          resposta.json().the(json => {
+          console.log(json);
+          console.log(JSON.stringify(json));
+          json.forEach(element => {
+            vetor_Normall.push(element.Normall)
+            vetor_Atencao.push(element.Atencao)
+            vetor_Critico.push(element.Critico)
+          });
+        });
           resposta.reverse();
         });
       } else {
@@ -768,6 +729,70 @@
       .catch(function (error) {
         console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
       });
+
+      // CPU
+
+      function verificarCpu(vetor_Normall, vetor_Atencao, vetor_Critico){
+    var frase = ""
+    // incluir uma nova medida de temperatura  
+    if (metrica > vetor_Atencao && metrica < vetor_Critico) {
+      frase = "Alerta: CPU sobrecarregando! Porcentagem de uso: "
+      console.log('Cheguei aqui')
+      alertas(nome, "CPU", metrica, frase)
+    } else if (metrica >= vetor_Critico) {
+      frase = "Perigo: CPU sobrecarregada! Porcentagem de uso: "
+      alertas(nome, "CPU", metrica, frase)
+    }
+  }
+
+  
+
+  // RAM
+
+  function verificarRam(vetor_Normall, vetor_Atencao, vetor_Critico){
+    var frase = ""
+    // incluir uma nova medida de temperatura  
+    if (metrica > vetor_Atencao && metrica < vetor_Critico) {
+      frase = "Alerta: RAM sobrecarregando! Porcentagem de uso: "
+      console.log('Cheguei aqui')
+      alertas(nome, "RAM", metrica, frase)
+    } else if (metrica >= vetor_Critico) {
+      frase = "Perigo: RAM está sobrecarregada! Porcentagem de uso: "
+      alertas(nome, "RAM", metrica, frase)
+    }
+  }
+  
+
+  // DISCO
+
+  function verificarDisco(vetor_Normall, vetor_Atencao, vetor_Critico){
+    var frase = ""
+    // incluir uma nova medida de temperatura  
+    if (metrica > vetor_Atencao && metrica < vetor_Critico ) {
+      frase = "Alerta: Disco sobrecarregando! Porcentagem de uso: "
+      console.log('Cheguei aqui')
+      alertas(nome, "Disco", metrica, frase)
+    } else if (metrica >= vetor_Critico) {
+      frase = "Perigo: Disco sobrecarregado! Porcentagem de uso: "
+      alertas(nome, "Disco", metrica, frase)
+    }
+  }
+
+  // Internet
+
+  function verificarInternet(vetor_Normall, vetor_Atencao, vetor_Critico){
+    var frase = ""
+    // incluir uma nova medida de temperatura  
+    if (metrica > vetor_Atencao && metrica < vetor_Critico) {
+      frase = "Alerta: Alguns pacotes estão sendo perdidos! Porcentagem de perda de pacotes: "
+      console.log('Cheguei aqui')
+      alertas(nome, "Pacotes", metrica, frase)
+    } else if (metrica >= vetor_Critico) {
+      frase = "Perigo: Muitos Pacotes Perdidos! Porcentagem de perda de pacotes: "
+      alertas(nome, "Pacotes", metrica, frase)
+    }
+  }
+ 
   }
 
 
